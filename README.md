@@ -138,5 +138,3 @@ src/main/java/com/cryptotrading/
 - **Rate limiting** only on `POST /api/trades` (10 req/10s per user) — read endpoints are unrestricted
 - **BigDecimal everywhere** — no `double` or `float` for monetary values
 - **HealthService is internal** — no `/api/health` endpoint; status is embedded in the `/api/prices` response
-
-See [ENHANCEMENTS.md](ENHANCEMENTS.md) for detailed explanations of 5 concurrency/correctness fixes applied during code review.
