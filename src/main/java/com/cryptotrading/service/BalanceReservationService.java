@@ -43,6 +43,49 @@ public class BalanceReservationService {
 
     private static final int MAX_CAS_RETRIES = 10;
 
+    //
+    // more 100 providers & currencies. No 100 %
+    // Build a dedicate service for price pulling on these providers. Build Task Schedulers strategies. 10 seconds.
+    // Every 10 seconds.
+    // For example provider_latency Binance: 100ms, through put: 100 QPS
+    // For example provider_latency Huabi: 200ms, through put: 1000 QPS
+    // ... so on
+    // avg(provider_latency) ~ 150ms
+    // avg(through put) ~ 500 QPS
+    // percent accepted: ~ 60 - 80%
+    // log for price package = (1KB * total_requests / second) * 24
+    //
+    //
+    //
+    //
+    /// Expect: predict the latency for this service:
+    /// - Throughput:
+    /// - Latency:
+    /// - Server resource
+            // - storage
+            // - CPU / RAM
+
+    /** fetch the aggregated price
+     * confidence_percent: let say total providers are 100, but only 50% able to pul the price, the confidence_percent is 50%
+     *
+     *  Service A -----> Price Service (Cache 1st, in memory cache) -> get (price_pairs, confidence_percent) // BTCUSD, 60%
+     *  Service B -----> Price Service (Cache 1st) -> ... // BTCUSD, 100%
+     *  Service has to decided that it need to go or refuse to do
+     *
+     * If Price Service is down -> need to have circute breaker
+     *
+     */
+
+
+    /** Price Service (dedicated)
+     *  1. Pull from providers
+     *  2. Do the aggregate
+     *  3. Save to Cache
+     *  4. Health check
+     *
+     */
+
+
     /**
      * Atomically reserve an amount if available balance (dbBalance - reservedAmount) &gt;= amount.
      *
